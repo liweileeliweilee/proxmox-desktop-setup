@@ -61,6 +61,13 @@ systemctl set-default graphical.target
 echo "==== 設定 vim 為預設編輯器 ===="
 update-alternatives --set editor /usr/bin/vim.basic
 
+echo "🔧 修改 /etc/initramfs-tools/initramfs.conf ..."
+sudo sed -i 's/^MODULES=.*/MODULES=dep/' /etc/initramfs-tools/initramfs.conf
+sudo sed -i 's/^COMPRESS=.*/COMPRESS=xz/' /etc/initramfs-tools/initramfs.conf
+
+echo "📦 更新 initramfs ..."
+sudo update-initramfs -u
+
 echo ""
 echo "✅ 初始設定完成！接下來請手動執行以下步驟："
 echo "--------------------------------------------------"
