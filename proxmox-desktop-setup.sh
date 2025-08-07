@@ -3,6 +3,8 @@ set -e
 
 echo "==== 更新來源 ===="
 echo "deb http://download.proxmox.com/debian/pve bookworm pve-no-subscription" >> /etc/apt/sources.list
+echo "==== 修正 sources.list 中的 Debian 鏡像來源 ===="
+sudo sed -i 's|ftp\.tw\.debian\.org|deb.debian.org|g' /etc/apt/sources.list
 
 echo "==== 註解 enterprise/ceph 套件來源 ===="
 sed -i 's/^deb /#deb /' /etc/apt/sources.list.d/pve-enterprise.list 2>/dev/null || true
