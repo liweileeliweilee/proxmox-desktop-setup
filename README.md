@@ -5,14 +5,14 @@
 ## 🔧 安裝方式
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/liweileeliweilee/proxmox-desktop-setup/main/setup-proxmox-desktop.sh | sudo bash
+curl -sSL https://raw.githubusercontent.com/liweileeliweilee/proxmox-desktop-setup/main/proxmox-desktop-setup.sh | sudo bash
 ```
 
 或下載後執行：
 
 ```bash
-chmod +x setup-proxmox-desktop.sh
-sudo ./setup-proxmox-desktop.sh
+chmod +x proxmox-desktop-setup.sh
+sudo ./proxmox-desktop-setup.sh
 ```
 
 ## 🚀 功能包含：
