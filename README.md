@@ -5,7 +5,7 @@
 ## 🔧 安裝方式
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/liweileeliweilee/proxmox-desktop-setup/main/proxmox-desktop-setup.sh | sudo bash
+curl -sSL https://raw.githubusercontent.com/liweileeliweilee/proxmox-desktop-setup/main/proxmox-desktop-setup.sh | bash
 ```
 
 或下載後執行：
