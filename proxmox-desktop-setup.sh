@@ -33,6 +33,10 @@ echo 'GTK_IM_MODULE=fcitx' >> /etc/environment
 echo 'QT_IM_MODULE=fcitx' >> /etc/environment
 echo 'XMODIFIERS=@im=fcitx' >> /etc/environment
 
+echo "==== 設定 fcitx5 開機自動啟動 ===="
+mkdir -p ~/.config/autostart
+cp /usr/share/applications/org.fcitx.Fcitx5.desktop ~/.config/autostart/
+
 echo "==== 設定預設語言為繁體中文 ===="
 echo 'LANG=zh_TW.UTF-8' >> /etc/environment
 
