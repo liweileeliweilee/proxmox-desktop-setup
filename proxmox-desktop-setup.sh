@@ -80,11 +80,25 @@ echo "📦 更新 initramfs ..."
 sudo update-initramfs -u
 sudo update-grub
 
+tee -a /root/.bashrc <<'EOF'
+# Added by liweilee
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+export PS1="\[\e[41m\]\t\[\e[m\][\u@\h:\w]$ "
+alias chrome-gtk4='env GTK_IM_MODULE=fcitx5 QT_IM_MODULE=fcitx5 XMODIFIERS="@im=fcitx5" google-chrome --gtk-version=4 2>/dev/null &'
+EOF
+
+tee -a /root/.profile <<'EOF'
+# Added by liweilee
+export PS1="\[\e[41m\]\t\[\e[m\][\u@\h:\w]$ "
+EOF
+
 echo ""
 echo "✅ 初始設定完成！接下來請手動執行以下步驟："
 echo "--------------------------------------------------"
 echo "1. 建立使用者：         adduser liweilee"
-echo "1.1. 建立使用者密碼：    passwd liweilee"
 echo "2. 加入 sudo 群組：     usermod -aG sudo liweilee"
 echo "3. 編輯 sudoers（可選）：visudo"
 echo "4. 執行 intel_gpu_top 或 psensor 查看資訊"
