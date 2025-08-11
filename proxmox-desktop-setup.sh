@@ -50,7 +50,7 @@ echo "==== 安裝影像支援工具與格式 ===="
 apt install -y libheif-dev
 
 echo "==== 安裝硬體監控工具 ===="
-apt install -y intel-gpu-tools intel-media-va-driver vainfo nvtop lm-sensors psensor xfce4-sensors-plugin
+apt install -y intel-gpu-tools intel-media-va-driver vainfo nvtop lm-sensors psensor gnome-system-monitor xfce4-sensors-plugin
 sensors-detect --auto || true
 
 echo "==== 安裝Thunar browse smb目錄工具 ===="
