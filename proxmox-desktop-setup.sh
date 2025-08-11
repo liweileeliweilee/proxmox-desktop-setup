@@ -80,6 +80,7 @@ echo "📦 更新 initramfs ..."
 sudo update-initramfs -u
 sudo update-grub
 
+echo "🔧 修改 /root/.bashrc ..."
 tee -a /root/.bashrc <<'EOF'
 # Added by liweilee
 # set PATH so it includes user's private bin if it exists
@@ -87,12 +88,15 @@ if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
 export PS1="\[\e[41m\]\t\[\e[m\][\u@\h:\w]$ "
+#export PS1="\[\e[0;30;47m\]\t\[\e[m\][\u@\h:\w]$ "
 alias chrome-gtk4='env GTK_IM_MODULE=fcitx5 QT_IM_MODULE=fcitx5 XMODIFIERS="@im=fcitx5" google-chrome --gtk-version=4 2>/dev/null &'
 EOF
 
+echo "🔧 修改 /root/.profile ..."
 tee -a /root/.profile <<'EOF'
 # Added by liweilee
 export PS1="\[\e[41m\]\t\[\e[m\][\u@\h:\w]$ "
+#export PS1="\[\e[0;30;47m\]\t\[\e[m\][\u@\h:\w]$ "
 EOF
 
 echo ""
