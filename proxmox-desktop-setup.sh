@@ -53,6 +53,11 @@ echo "==== 安裝硬體監控工具 ===="
 apt install -y intel-gpu-tools intel-media-va-driver vainfo nvtop lm-sensors psensor xfce4-sensors-plugin
 sensors-detect --auto || true
 
+echo "==== 安裝Thunar browse smb目錄工具 ===="
+apt install -y gvfs-backends
+apt install -y smbclient samba
+apt install -y kio-fuse gvfs-fuse
+
 echo "==== 設定 chrony 關機 timeout ===="
 mkdir -p /etc/systemd/system/chrony.service.d
 cat << EOF > /etc/systemd/system/chrony.service.d/override.conf
