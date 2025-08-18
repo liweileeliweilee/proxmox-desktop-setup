@@ -43,11 +43,11 @@ echo 'LANG=zh_TW.UTF-8' >> /etc/environment
 echo "==== 安裝 GTK 版本 vim 以支援剪貼簿 ===="
 apt install -y vim-gtk3
 
-echo "==== 安裝影音播放工具 ===="
-apt install -y smplayer
+#echo "==== 安裝影音播放工具 ===="
+#apt install -y smplayer
 
-echo "==== 安裝影像支援工具與格式 ===="
-apt install -y libheif-dev
+#echo "==== 安裝影像支援工具與格式 ===="
+#apt install -y libheif-dev
 
 echo "==== 安裝硬體監控工具 ===="
 apt install -y intel-gpu-tools intel-media-va-driver vainfo nvtop lm-sensors psensor gnome-system-monitor xfce4-sensors-plugin
@@ -57,6 +57,15 @@ echo "==== 安裝Thunar browse smb目錄工具 ===="
 apt install -y gvfs-backends
 apt install -y smbclient samba
 apt install -y kio-fuse gvfs-fuse
+
+echo "==== 安裝flatpak ===="
+apt install -y flatpak
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+echo "==== 安裝flatpak下的應用程式 ===="
+flatpak install -y flathub com.google.Chrome
+flatpak install -y flathub info.smplayer.SMPlayer
+flatpak install -y flathub com.xnview.XnViewMP
 
 echo "==== 設定 chrony 關機 timeout ===="
 mkdir -p /etc/systemd/system/chrony.service.d
