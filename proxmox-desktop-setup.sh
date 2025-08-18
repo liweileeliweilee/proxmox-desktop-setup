@@ -19,11 +19,11 @@ apt install -y net-tools vim curl sudo gdebi
 echo "==== 安裝桌面環境 XFCE + LightDM ===="
 apt install -y xfce4 lightdm xfce4-terminal thunar-archive-plugin
 
-echo "==== 安裝 Google Chrome 依賴與瀏覽器 ===="
-apt install -y fonts-liberation libu2f-udev xdg-utils
-wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-dpkg -i google-chrome-stable_current_amd64.deb || apt -f install -y
-rm -f google-chrome-stable_current_amd64.deb
+# echo "==== 安裝 Google Chrome 依賴與瀏覽器 ===="
+# apt install -y fonts-liberation libu2f-udev xdg-utils
+# wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+# dpkg -i google-chrome-stable_current_amd64.deb || apt -f install -y
+# rm -f google-chrome-stable_current_amd64.deb
 
 echo "==== 安裝字型與輸入法 ===="
 apt install -y fonts-noto-cjk fcitx5 fcitx5-chewing fcitx5-configtool
