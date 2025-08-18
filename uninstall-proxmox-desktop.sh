@@ -1,6 +1,23 @@
 #!/bin/bash
 set -e
 
+echo "🔧 正在移除Flatpak 1.應用程式、2.遠端庫、3.相關套件 ..."
+echo "🔧 移除Flatpak(1/3): 移除所有 Flatpak 應用程式（系統及使用者）..."
+# 列出所有系統層級的應用程式，並移除
+sudo flatpak list --app --columns=application | xargs sudo flatpak uninstall -y
+# 列出所有使用者層級的應用程式，並移除
+flatpak list --user --app --columns=application | xargs flatpak uninstall --user -y
+
+echo "🔧 移除Flatpak(2/3): 移除 Flatpak 遠端庫（系統及使用者）..."
+# 移除所有系統層級的遠端庫
+sudo flatpak remotes --system | grep -v 'Name' | awk '{print $1}' | xargs -r sudo flatpak remote-delete
+# 移除所有使用者層級的遠端庫
+flatpak remotes --user | grep -v 'Name' | awk '{print $1}' | xargs -r flatpak remote-delete --user
+
+echo "🔧 移除Flatpak(3/3): 移除 Flatpak 套件本身 ..."
+sudo apt remove --autoremove -y flatpak
+
+
 echo "🔧 正在移除 Proxmox Desktop 環境套件..."
 
 sudo apt remove --purge -y \
