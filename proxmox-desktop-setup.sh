@@ -63,6 +63,7 @@ apt install -y flatpak
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 echo "==== 安裝flatpak下的應用程式 ===="
+flatpak install -y flathub org.mozilla.firefox
 flatpak install -y flathub com.google.Chrome
 flatpak install -y flathub info.smplayer.SMPlayer
 flatpak install -y flathub com.xnview.XnViewMP
