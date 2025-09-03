@@ -23,7 +23,7 @@ sudo ./proxmox-desktop-setup.sh
 
 ## 🚀 proxmox-desktop-setup.sh 功能包含：
 - 安裝 XFCE4 桌面 + LightDM
-- 安裝 Flatpak、Google Chrome、SMPlayer、XnViewMP、壓縮檔工具
+- 安裝 Flatpak、Mozilla Firefox、Google Chrome、SMPlayer、XnViewMP、壓縮檔工具
 - 安裝中文字型、Fcitx 5 新酷音輸入法
 - 顯示語系設為繁體中文（zh_TW.UTF-8）
 - 預設開機進入 GUI 模式
