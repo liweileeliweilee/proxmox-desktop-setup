@@ -48,6 +48,7 @@ apt install -y vim-gtk3
 
 #echo "==== 安裝影像支援工具與格式 ===="
 #apt install -y libheif-dev
+apt install ffmpeg libavcodec-extra libavformat-extra
 
 echo "==== 安裝硬體監控工具 ===="
 apt install -y xfce4-taskmanager xfce4-systemload-plugin htop glances intel-gpu-tools intel-media-va-driver vainfo nvtop lm-sensors psensor gnome-system-monitor xfce4-sensors-plugin
