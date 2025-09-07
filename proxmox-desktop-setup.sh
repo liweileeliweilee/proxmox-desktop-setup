@@ -68,6 +68,8 @@ flatpak install -y flathub org.mozilla.firefox
 flatpak install -y flathub com.google.Chrome
 flatpak install -y flathub info.smplayer.SMPlayer
 flatpak install -y flathub com.xnview.XnViewMP
+flatpak install -y flathub org.freedesktop.Platform.VAAPI.Intel
+#flatpak install -y flathub org.freedesktop.Platform.VAAPI.Intel/x86_64/25.08
 
 echo "==== 設定 chrony 關機 timeout ===="
 mkdir -p /etc/systemd/system/chrony.service.d
