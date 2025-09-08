@@ -47,18 +47,14 @@ apt install -y vim-gtk3
 #apt install -y smplayer
 
 #echo "==== 安裝影像支援工具與格式 ===="
-#apt install -y libheif-dev
-apt install -y ffmpeg libavcodec-extra libavformat-extra
-apt install -y mesa-vulkan-drivers libgl1-mesa-dri
+apt install -y libheif-dev ffmpeg libavcodec-extra libavformat-extra mesa-vulkan-drivers libgl1-mesa-dri
 
 echo "==== 安裝硬體監控工具 ===="
 apt install -y xfce4-taskmanager xfce4-systemload-plugin htop glances intel-gpu-tools intel-media-va-driver vainfo nvtop lm-sensors psensor gnome-system-monitor xfce4-sensors-plugin
 sensors-detect --auto || true
 
 echo "==== 安裝Thunar browse smb目錄工具 ===="
-apt install -y gvfs-backends
-apt install -y smbclient samba
-apt install -y kio-fuse gvfs-fuse
+apt install -y gvfs-backends smbclient samba kio-fuse gvfs-fuse
 
 echo "==== 安裝flatpak ===="
 apt install -y flatpak
