@@ -45,7 +45,7 @@ echo "==== 安裝 GTK 版本 vim 以支援剪貼簿 ===="
 apt install -y vim-gtk3
 
 echo "==== 安裝影音播放工具 ===="
-apt install -y smplayer xnviewmp
+apt install -y smplayer
 
 #echo "==== 安裝影像支援工具與格式 ===="
 apt install -y libheif-dev ffmpeg libavcodec-extra libavformat-extra mesa-vulkan-drivers libgl1-mesa-dri
@@ -65,7 +65,7 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 #flatpak install -y flathub org.mozilla.firefox
 #flatpak install -y flathub com.google.Chrome
 #flatpak install -y flathub info.smplayer.SMPlayer
-#flatpak install -y flathub com.xnview.XnViewMP
+flatpak install -y flathub com.xnview.XnViewMP
 #flatpak install -y flathub org.freedesktop.Platform.VAAPI.Intel
 #flatpak install -y flathub org.freedesktop.Platform.VAAPI.Intel/x86_64/25.08
 
