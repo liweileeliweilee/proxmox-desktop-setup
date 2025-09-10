@@ -19,8 +19,9 @@ apt install -y net-tools vim curl sudo gdebi
 echo "==== 安裝桌面環境 XFCE + LightDM ===="
 apt install -y xfce4 lightdm xfce4-terminal thunar-archive-plugin
 
-# echo "==== 安裝 Google Chrome 依賴與瀏覽器 ===="
-# apt install -y fonts-liberation libu2f-udev xdg-utils
+echo "==== 安裝 Google Chrome 依賴與瀏覽器 ===="
+apt install -y fonts-liberation libu2f-udev xdg-utils
+sudo apt install firefox google-chrome-stable
 # wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 # dpkg -i google-chrome-stable_current_amd64.deb || apt -f install -y
 # rm -f google-chrome-stable_current_amd64.deb
@@ -43,8 +44,8 @@ echo 'LANG=zh_TW.UTF-8' >> /etc/environment
 echo "==== 安裝 GTK 版本 vim 以支援剪貼簿 ===="
 apt install -y vim-gtk3
 
-#echo "==== 安裝影音播放工具 ===="
-#apt install -y smplayer
+echo "==== 安裝影音播放工具 ===="
+apt install -y smplayer xnviewmp
 
 #echo "==== 安裝影像支援工具與格式 ===="
 apt install -y libheif-dev ffmpeg libavcodec-extra libavformat-extra mesa-vulkan-drivers libgl1-mesa-dri
@@ -60,12 +61,12 @@ echo "==== 安裝flatpak ===="
 apt install -y flatpak
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
-echo "==== 安裝flatpak下的應用程式 ===="
-flatpak install -y flathub org.mozilla.firefox
-flatpak install -y flathub com.google.Chrome
-flatpak install -y flathub info.smplayer.SMPlayer
-flatpak install -y flathub com.xnview.XnViewMP
-flatpak install -y flathub org.freedesktop.Platform.VAAPI.Intel
+#echo "==== 安裝flatpak下的應用程式 ===="
+#flatpak install -y flathub org.mozilla.firefox
+#flatpak install -y flathub com.google.Chrome
+#flatpak install -y flathub info.smplayer.SMPlayer
+#flatpak install -y flathub com.xnview.XnViewMP
+#flatpak install -y flathub org.freedesktop.Platform.VAAPI.Intel
 #flatpak install -y flathub org.freedesktop.Platform.VAAPI.Intel/x86_64/25.08
 
 echo "==== 設定 chrony 關機 timeout ===="
