@@ -21,7 +21,21 @@ apt install -y xfce4 lightdm xfce4-terminal thunar-archive-plugin
 
 echo "==== 安裝 Firefox/Chrome 依賴與瀏覽器 ===="
 apt install -y fonts-liberation libu2f-udev xdg-utils
-apt install firefox-esr
+
+# 開始安裝Firefox: 安裝依賴
+apt install -y wget gnupg
+# 創建 keyrings 目錄（確保存在）
+mkdir -p /etc/apt/keyrings
+# 下載並導入 Mozilla 公鑰
+wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- | sudo tee /etc/apt/keyrings/packages.mozilla.org.asc > /dev/null
+# 添加軟體源
+echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" | sudo tee /etc/apt/sources.list.d/mozilla.list > /dev/null
+# 更新並安裝Firefox
+apt update
+apt install -y firefox
+#apt install firefox-esr
+
+# 開始安裝Chrome
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 apt install -y ./google-chrome-stable_current_amd64.deb
 rm google-chrome-stable_current_amd64.deb
