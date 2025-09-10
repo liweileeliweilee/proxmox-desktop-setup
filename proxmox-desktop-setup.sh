@@ -21,9 +21,9 @@ apt install -y xfce4 lightdm xfce4-terminal thunar-archive-plugin
 
 echo "==== 安裝 Firefox/Chrome 依賴與瀏覽器 ===="
 apt install -y fonts-liberation libu2f-udev xdg-utils
-sudo apt install firefox
+apt install firefox
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-sudo apt install -y ./google-chrome-stable_current_amd64.deb
+apt install -y ./google-chrome-stable_current_amd64.deb
 rm google-chrome-stable_current_amd64.deb
 
 echo "==== 安裝字型與輸入法 ===="
