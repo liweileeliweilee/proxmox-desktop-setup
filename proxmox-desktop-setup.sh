@@ -84,25 +84,6 @@ sed -i 's/^COMPRESS=.*/COMPRESS=xz/' /etc/initramfs-tools/initramfs.conf
 update-initramfs -u
 update-grub
 
-echo "🔧 修改 /root/.bashrc ..."
-tee -a /root/.bashrc <<'EOF'
-# Added by liweilee
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
-fi
-export PS1="\[\e[41m\]\t\[\e[m\][\u@\h:\w]$ "
-#export PS1="\[\e[0;30;47m\]\t\[\e[m\][\u@\h:\w]$ "
-alias chrome-gtk4='env GTK_IM_MODULE=fcitx5 QT_IM_MODULE=fcitx5 XMODIFIERS="@im=fcitx5" google-chrome --gtk-version=4 2>/dev/null &'
-EOF
-
-echo "🔧 修改 /root/.profile ..."
-tee -a /root/.profile <<'EOF'
-# Added by liweilee
-export PS1="\[\e[41m\]\t\[\e[m\][\u@\h:\w]$ "
-#export PS1="\[\e[0;30;47m\]\t\[\e[m\][\u@\h:\w]$ "
-EOF
-
 echo ""
 echo "✅ Proxmox Desktop 系統級基礎配置已完成！"
 echo "=================================================="
@@ -110,10 +91,7 @@ echo "下一步操作指引："
 echo "1. 建立日常使用者帳號: adduser <username>"
 echo "2. 將其加入 sudo 群組: usermod -aG sudo <username>"
 echo "3. 切換至該使用者: su - <username>"
-echo "4. 取得並執行「使用者環境配置腳本」:"
-echo "   wget -O ~/proxmox-desktop-setup-user.sh https://path-to-your-script/proxmox-desktop-setup-user.sh"
-echo "   chmod +x ~/proxmox-desktop-setup-user.sh"
-echo "   ./proxmox-desktop-setup-user.sh"
+echo "4. 執行proxmox-desktop-setup-user.sh"
 echo "5. 重新啟動系統以套用所有變更: reboot"
 echo "=================================================="
 echo "⭐ 本腳本已完成之系統級配置摘要："
