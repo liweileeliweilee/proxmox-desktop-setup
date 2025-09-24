@@ -58,7 +58,9 @@ echo "==== 安裝 Flatpak 應用與運行時 ===="
 flatpak install -y flathub \
     org.mozilla.firefox \
     info.smplayer.SMPlayer \
-    org.videolan.VLC
+    org.videolan.VLC \
+    com.simplenote.Simplenote \
+    net.cozic.joplin_desktop \
     md.obsidian.Obsidian
 # 關鍵媒體運行時（增強編解碼器支援）
 flatpak install -y flathub org.freedesktop.Platform.ffmpeg-full
@@ -77,10 +79,13 @@ set_flatpak_permissions() {
 }
 
 # 為各個應用設置硬體加速權限
-set_flatpak_permissions org.mozilla.firefox    # Firefox 瀏覽器
-set_flatpak_permissions info.smplayer.SMPlayer # SMPlayer 播放器
-set_flatpak_permissions org.videolan.VLC       # VLC 播放器
-set_flatpak_permissions md.obsidian.Obsidian   # Obsidian 長期筆記知識庫
+set_flatpak_permissions org.mozilla.firefox       # Firefox 瀏覽器
+set_flatpak_permissions info.smplayer.SMPlayer    # SMPlayer 播放器
+set_flatpak_permissions org.videolan.VLC          # VLC 播放器
+set_flatpak_permissions com.simplenote.Simplenote # Simplenote 短期筆記
+set_flatpak_permissions net.cozic.joplin_desktop  # joplin 長期筆記知識庫
+set_flatpak_permissions md.obsidian.Obsidian      # Obsidian 長期筆記知識庫
+
 
 echo "==== 配置 Flatpak 所需的核心權限 (用戶命名空間) ===="
 echo "kernel.unprivileged_userns_clone=1" > /etc/sysctl.d/99-flatpak-userns.conf
