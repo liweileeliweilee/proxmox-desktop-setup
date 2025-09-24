@@ -34,7 +34,7 @@ echo "==== 安裝通用函式庫與工具 ===="
 # 基礎函式庫和工具
 apt install -y fonts-liberation libu2f-udev xdg-utils gdebi
 # 編輯器
-apt install -y vim vim-gtk3
+apt install -y vim vim-gtk3 zim
 # 網路與系統管理工具
 apt install -y net-tools curl sudo git
 # 檔案系統和網路共享
@@ -59,6 +59,7 @@ flatpak install -y flathub \
     org.mozilla.firefox \
     info.smplayer.SMPlayer \
     org.videolan.VLC
+    md.obsidian.Obsidian
 # 關鍵媒體運行時（增強編解碼器支援）
 flatpak install -y flathub org.freedesktop.Platform.ffmpeg-full
 
@@ -79,6 +80,7 @@ set_flatpak_permissions() {
 set_flatpak_permissions org.mozilla.firefox    # Firefox 瀏覽器
 set_flatpak_permissions info.smplayer.SMPlayer # SMPlayer 播放器
 set_flatpak_permissions org.videolan.VLC       # VLC 播放器
+set_flatpak_permissions md.obsidian.Obsidian   # Obsidian 長期筆記知識庫
 
 echo "==== 配置 Flatpak 所需的核心權限 (用戶命名空間) ===="
 echo "kernel.unprivileged_userns_clone=1" > /etc/sysctl.d/99-flatpak-userns.conf
