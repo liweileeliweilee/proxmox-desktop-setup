@@ -11,7 +11,7 @@ sed -i 's/^deb /#deb /' /etc/apt/sources.list.d/pve-enterprise.list 2>/dev/null 
 sed -i 's/^deb /#deb /' /etc/apt/sources.list.d/ceph.list 2>/dev/null || true
 
 echo "==== 執行系統更新 ===="
-apt update -y && apt dist-upgrade -y
+apt update && apt full-upgrade -y && apt autoremove -y
 
 echo "==== 安裝桌面環境 (XFCE + LightDM) ===="
 apt install -y xfce4 lightdm xfce4-terminal thunar-archive-plugin
@@ -29,6 +29,20 @@ else
     echo "✅ vainfo 驗證通過，硬體解碼驅動已就緒。"
     vainfo | grep -E "VAProfileH264|VAProfileHEVC|VAProfileVP9" | head -5
 fi
+
+echo "==== 安裝DKMS/r8125-dkms/kernel headers ===="
+apt install -y dkms r8125-dkms proxmox-default-headers
+#讓DKMS自動編譯並安裝所有(包含r8125)
+dkms autoinstall
+#確認已經加入 DKMS
+dkms status 
+
+#阻止手動用modprobe載入r8169
+echo "alias r8169 off" | sudo tee -a /etc/modprobe.d/dkms.conf
+
+#不全域封鎖 r8169，而是透過 initramfs 指定兩個驅動同時存在，並讓 RTL8125 優先使用 r8125
+echo "r8125" | sudo tee -a /etc/initramfs-tools/modules
+echo "r8169" | sudo tee -a /etc/initramfs-tools/modules
 
 echo "==== 安裝通用函式庫與工具 ===="
 # 基礎函式庫和工具
