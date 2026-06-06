@@ -73,6 +73,7 @@ flatpak install -y flathub \
     org.mozilla.firefox \
     info.smplayer.SMPlayer \
     org.videolan.VLC \
+    fr.handbrake.ghb \
     com.simplenote.Simplenote \
     net.cozic.joplin_desktop \
     md.obsidian.Obsidian
@@ -96,6 +97,7 @@ set_flatpak_permissions() {
 set_flatpak_permissions org.mozilla.firefox       # Firefox 瀏覽器
 set_flatpak_permissions info.smplayer.SMPlayer    # SMPlayer 播放器
 set_flatpak_permissions org.videolan.VLC          # VLC 播放器
+set_flatpak_permissions fr.handbrake.ghb          # handbrake把iso轉成mp4
 set_flatpak_permissions com.simplenote.Simplenote # Simplenote 短期筆記
 set_flatpak_permissions net.cozic.joplin_desktop  # joplin 長期筆記知識庫
 set_flatpak_permissions md.obsidian.Obsidian      # Obsidian 長期筆記知識庫
