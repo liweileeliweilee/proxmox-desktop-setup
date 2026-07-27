@@ -83,6 +83,7 @@ fi
 
 # 其他別名和設定
 alias chrome-gtk4='env GTK_IM_MODULE=fcitx5 QT_IM_MODULE=fcitx5 XMODIFIERS="@im=fcitx5" google-chrome --gtk-version=4 2>/dev/null &'
+alias mpv='flatpak run io.mpv.Mpv'
 EOF_BASHRC
 )
 clean_and_write "$HOME/.bashrc" "$BASHRC_CONTENT"
@@ -102,6 +103,14 @@ clean_and_write "$HOME/.profile" "$PROFILE_CONTENT"
 echo "==== 5. 設定 Flatpak 應用程式權限 ===="
 flatpak override --user --filesystem=/run/user/$(id -u)/gvfs info.smplayer.SMPlayer
 flatpak override --user --filesystem=/run/user/$(id -u)/gvfs com.xnview.XnViewMP
+
+# mpv 沙盒權限突破 (允許存取本機與 GVFS 網路磁碟)
+flatpak override --user --filesystem=host io.mpv.Mpv
+flatpak override --user --filesystem=/run/user/$(id -u)/gvfs io.mpv.Mpv
+
+echo "==== 5.1 建立 mpv Flatpak 設定檔軟連結 ===="
+mkdir -p "$HOME/.var/app/io.mpv.Mpv/config"
+ln -sf "$HOME/.config/mpv" "$HOME/.var/app/io.mpv.Mpv/config/mpv"
 
 echo "==== 6. 設定全局 HiDPI 環境變數 (/etc/environment) ===="
 # 這是唯一需要 root 權限的步驟，單獨用 sudo 執行
