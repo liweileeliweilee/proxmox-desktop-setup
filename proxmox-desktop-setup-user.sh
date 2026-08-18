@@ -68,8 +68,8 @@ EOF
 BASHRC_CONTENT=$(cat <<'EOF_BASHRC'
 # Added by liweilee 20250820
 # set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
 fi
 
 # Determine PS1 based on user type (root vs. regular)
@@ -126,6 +126,54 @@ _JAVA_OPTIONS='-Dsun.java2d.uiScale='$SCALE
 XFT_DPI=$DPI
 XCURSOR_SIZE=$CURSOR_SIZE
 EOF
+
+echo "==== 7. 設定 sudoers 免密碼執行特定命令（使用標記區塊）===="
+CURRENT_USER=$(whoami)
+SUDOERS_FILE="/etc/sudoers.d/mystartup"
+START_MARKER="# START_PVE_SUDOERS"
+END_MARKER="# END_PVE_SUDOERS"
+
+# 暫存檔案（避免直接編輯系統檔案時出錯）
+TEMP_FILE=$(mktemp)
+
+# 若檔案不存在則建立空檔案
+sudo touch "$SUDOERS_FILE"
+sudo chmod 440 "$SUDOERS_FILE"
+
+# 讀取現有內容（若檔案不存在則為空）
+sudo cat "$SUDOERS_FILE" > "$TEMP_FILE" 2>/dev/null || true
+
+# 刪除舊的標記區塊（如果存在）
+sed -i "/^${START_MARKER}/, /^${END_MARKER}/d" "$TEMP_FILE"
+
+# 準備要新增的區塊
+NEW_BLOCK=$(cat <<EOF
+${START_MARKER}
+${CURRENT_USER} ALL=(root) NOPASSWD: \\
+    /usr/bin/apt update, \\
+    /usr/bin/apt full-upgrade -y, \\
+    /usr/bin/apt autoremove -y, \\
+    /usr/sbin/dkms autoinstall, \\
+    /usr/sbin/dkms status
+${END_MARKER}
+EOF
+)
+
+# 將新區塊附加到暫存檔案末尾
+echo "$NEW_BLOCK" >> "$TEMP_FILE"
+
+# 檢查語法是否正確（visudo -c -f）
+if sudo visudo -c -f "$TEMP_FILE" >/dev/null 2>&1; then
+    # 語法正確，寫回目標檔案
+    sudo tee "$SUDOERS_FILE" < "$TEMP_FILE" >/dev/null
+    echo "✅ sudoers 設定已更新（$SUDOERS_FILE）"
+else
+    echo "❌ sudoers 語法檢查失敗，未變更任何設定！請檢查內容。"
+    # 可選擇刪除暫存檔案
+fi
+rm -f "$TEMP_FILE"
+
+
 
 echo ""
 echo "✅ 所有設定已完成！"
