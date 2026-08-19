@@ -112,20 +112,20 @@ echo "==== 5.1 建立 mpv Flatpak 設定檔軟連結 ===="
 mkdir -p "$HOME/.var/app/io.mpv.Mpv/config"
 ln -sf "$HOME/.config/mpv" "$HOME/.var/app/io.mpv.Mpv/config/mpv"
 
-echo "==== 6. 設定全局 HiDPI 環境變數 (/etc/environment) ===="
-# 這是唯一需要 root 權限的步驟，單獨用 sudo 執行
-sudo tee /etc/environment > /dev/null <<EOF
-GTK_IM_MODULE=fcitx
-QT_IM_MODULE=fcitx
-XMODIFIERS=@im=fcitx
-LANG=zh_TW.UTF-8
+echo "==== 6. 設定全局 HiDPI 環境變數 (/etc/profile.d/99-custom-env.sh) ===="
+sudo tee /etc/profile.d/99-custom-env.sh > /dev/null <<EOF
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS=@im=fcitx
+export LANG=zh_TW.UTF-8
 
-GDK_SCALE=$SCALE
-QT_SCALE_FACTOR=$SCALE
-_JAVA_OPTIONS='-Dsun.java2d.uiScale='$SCALE
-XFT_DPI=$DPI
-XCURSOR_SIZE=$CURSOR_SIZE
+export GDK_SCALE=$SCALE
+export QT_SCALE_FACTOR=$SCALE
+export _JAVA_OPTIONS='-Dsun.java2d.uiScale='$SCALE
+export XFT_DPI=$DPI
+export XCURSOR_SIZE=$CURSOR_SIZE
 EOF
+sudo chmod 755 /etc/profile.d/99-custom-env.sh
 
 echo "==== 7. 設定 sudoers 免密碼執行特定命令（使用標記區塊）===="
 CURRENT_USER=$(whoami)
