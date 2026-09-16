@@ -75,7 +75,7 @@ flatpak install -y flathub \
     org.videolan.VLC \
     fr.handbrake.ghb \
     com.simplenote.Simplenote \
-    net.cozic.joplin_desktop \
+#    net.cozic.joplin_desktop \
     md.obsidian.Obsidian \
     io.mpv.Mpv    
 # 關鍵媒體運行時（增強編解碼器支援）
@@ -101,7 +101,7 @@ set_flatpak_permissions org.videolan.VLC          # VLC 播放器
 set_flatpak_permissions io.mpv.Mpv                # mpv 播放器
 set_flatpak_permissions fr.handbrake.ghb          # handbrake把iso轉成mp4
 set_flatpak_permissions com.simplenote.Simplenote # Simplenote 短期筆記
-set_flatpak_permissions net.cozic.joplin_desktop  # joplin 長期筆記知識庫
+#set_flatpak_permissions net.cozic.joplin_desktop  # joplin 長期筆記知識庫
 set_flatpak_permissions md.obsidian.Obsidian      # Obsidian 長期筆記知識庫
 
 

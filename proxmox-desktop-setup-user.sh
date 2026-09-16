@@ -30,16 +30,16 @@ EOF
 echo "==== 3. 設定 XFCE 核心參數 (xfconf-query) ===="
 # 取得並設定一般字體大小
 CURRENT_FONT=$(xfconf-query -c xsettings -p /Gtk/FontName)
-FONT_NAME=$(echo "$CURRENT_FONT" | sed -E 's/ [0-9]+$//')
+FONT_NAME=$(echo "$CURRENT_FONT" | sed -E 's/[[:space:]]+[0-9]+$//')
 xfconf-query -c xsettings -p /Gtk/FontName -s "$FONT_NAME $FONT_SIZE"
 
 # 取得並設定等寬字體大小
 CURRENT_MONO_FONT=$(xfconf-query -c xsettings -p /Gtk/MonospaceFontName)
-MONO_FONT_NAME=$(echo "$CURRENT_MONO_FONT" | sed -E 's/ [0-9]+$//')
+MONO_FONT_NAME=$(echo "$CURRENT_MONO_FONT" | sed -E 's/[[:space:]]+[0-9]+$//' )
 xfconf-query -c xsettings -p /Gtk/MonospaceFontName -s "$MONO_FONT_NAME $FONT_SIZE"
 
 # 設定其他核心參數
-xfconf-query -c xsettings -p /Xft/DPI -s 144
+xfconf-query -c xsettings -p /Xft/DPI -s "$DPI"
 xfconf-query -c xsettings -p /Gtk/CursorThemeSize -s $CURSOR_SIZE
 xfconf-query -c xsettings -p /Gtk/CursorThemeName -s "Adwaita"
 
@@ -114,9 +114,9 @@ ln -sf "$HOME/.config/mpv" "$HOME/.var/app/io.mpv.Mpv/config/mpv"
 
 echo "==== 6. 設定全局 HiDPI 環境變數 (/etc/profile.d/99-custom-env.sh) ===="
 sudo tee /etc/profile.d/99-custom-env.sh > /dev/null <<EOF
-export GTK_IM_MODULE=fcitx
-export QT_IM_MODULE=fcitx
-export XMODIFIERS=@im=fcitx
+export GTK_IM_MODULE=fcitx5
+export QT_IM_MODULE=fcitx5
+export XMODIFIERS=@im=fcitx5
 export LANG=zh_TW.UTF-8
 
 export GDK_SCALE=$SCALE
