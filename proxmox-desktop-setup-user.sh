@@ -154,7 +154,8 @@ ${CURRENT_USER} ALL=(root) NOPASSWD: \\
     /usr/bin/apt full-upgrade -y, \\
     /usr/bin/apt autoremove -y, \\
     /usr/sbin/dkms autoinstall, \\
-    /usr/sbin/dkms status
+    /usr/sbin/dkms status, \\
+    /usr/bin/flatpak
 ${END_MARKER}
 EOF
 )
