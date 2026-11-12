@@ -5,7 +5,7 @@
 # 可重複執行（idempotent）：想調整縮放、別名、sudoers 等，
 # 直接修改本腳本後再跑一次即可，不會重複寫入設定。
 #   - 縮放只改下面的 SCALE（1 或 1.5…），DPI / 游標 / 字型大小由它推導
-#   - ~/.bashrc、~/.profile、sudoers 使用「標記區塊」：重跑只會替換區塊內容
+#   - ~/.bashrc、~/.profile、sudoers、~/.Xresources 使用「標記區塊」：重跑只會替換區塊內容
 #   - 不在桌面 session 內執行（tty / ssh）時，會略過 xfconf 設定並提示，
 #     登入桌面後在桌面內的終端機再跑一次即可
 #   - /etc/profile.d 的環境變數（含 SCALE）要「登出再登入」才會生效
@@ -18,10 +18,14 @@ if ! [[ "$SCALE" =~ ^[0-9]+(\.[0-9]+)?$ ]] || ! awk -v s="$SCALE" 'BEGIN{exit !(
     echo "❌ SCALE 必須是大於 0 的數字（例如 1 或 1.5），目前是：$SCALE" >&2
     exit 1
 fi
+
 # 其餘數值由 SCALE 推導（基準：DPI 96 / 游標 32 / 字型 10；SCALE=1.5 → 144 / 48 / 15）
 DPI=$(awk -v s="$SCALE" 'BEGIN{printf "%d", 96*s+0.5}')
 CURSOR_SIZE=$(awk -v s="$SCALE" 'BEGIN{printf "%d", 32*s+0.5}')
 FONT_SIZE=$(awk -v s="$SCALE" 'BEGIN{printf "%d", 10*s+0.5}')
+
+# GDK_SCALE 只接受整數，這裡無條件捨去（1.5 → 1，2 維持 2）
+GDK_INT_SCALE=$(awk -v s="$SCALE" 'BEGIN{printf "%d", (s < 1 ? 1 : s)}')
 
 # === 前置檢查 ===
 if [[ $EUID -eq 0 ]]; then
@@ -60,6 +64,7 @@ write_block() {     # write_block <檔案> <START標記> <END標記> <內容>
 xf_set() {          # xf_set <屬性> <型別> <值>
     xfconf-query -c xsettings -p "$1" --create -t "$2" -s "$3"
 }
+
 # 保留現有字型名稱，只換大小；讀不到現有字型時才用預設名稱
 xf_set_font_size() {    # xf_set_font_size <屬性> <預設字型名> <大小>
     local prop="$1" fallback="$2" size="$3" cur name
@@ -78,6 +83,9 @@ Xcursor.theme: Adwaita
 EOF
 xrdb -merge "$HOME/.Xresources.d/hidpi" || true
 
+# 確保 ~/.Xresources 主檔案會 include 進來（重開機後傳統 X11 軟體才會吃到）
+write_block "$HOME/.Xresources" "# START_PVE_XRES" "# END_PVE_XRES" '#include ".Xresources.d/hidpi"'
+
 echo "==== 2. 設定 XFCE 游標主題 ===="
 mkdir -p "$HOME/.icons/default"
 cat > "$HOME/.icons/default/index.theme" <<EOF
@@ -90,10 +98,16 @@ if xfconf-query -c xsettings -l >/dev/null 2>&1; then
     # 一般字體與等寬字體：保留字型名稱，只換大小
     xf_set_font_size /Gtk/FontName "Sans" "$FONT_SIZE"
     xf_set_font_size /Gtk/MonospaceFontName "Monospace" "$FONT_SIZE"
+
     # 其他核心參數
     xf_set /Xft/DPI int "$DPI"
     xf_set /Gtk/CursorThemeSize int "$CURSOR_SIZE"
     xf_set /Gtk/CursorThemeName string "Adwaita"
+
+    # 視窗標題列字型（xfwm4 獨立控制）
+    CUR_WM_FONT=$(xfconf-query -c xfwm4 -p /general/title_font 2>/dev/null || true)
+    WM_FONT_NAME=$(sed -E 's/[[:space:]]+[0-9]+(\.[0-9]+)?$//' <<<"$CUR_WM_FONT")
+    xfconf-query -c xfwm4 -p /general/title_font --create -t string -s "${WM_FONT_NAME:-Sans Bold} $FONT_SIZE"
 else
     warn "偵測不到 XFCE 桌面 session（沒有 DISPLAY / D-Bus），已略過 xfconf 設定；請登入桌面後，在桌面內的終端機再執行一次本腳本"
 fi
@@ -172,7 +186,8 @@ export QT_IM_MODULE=fcitx5
 export XMODIFIERS=@im=fcitx5
 export LANG=zh_TW.UTF-8
 
-export GDK_SCALE=$SCALE
+# GDK_SCALE 只接受整數
+export GDK_SCALE=$GDK_INT_SCALE
 export QT_SCALE_FACTOR=$SCALE
 export _JAVA_OPTIONS='-Dsun.java2d.uiScale=$SCALE'
 export XFT_DPI=$DPI
@@ -223,7 +238,7 @@ if ((${#WARNINGS[@]} > 0)); then
 else
     echo "✅ 所有設定已完成！"
 fi
-echo "    → SCALE=$SCALE, DPI=$DPI, Font=$FONT_SIZE, Cursor=$CURSOR_SIZE"
+echo "    → SCALE=$SCALE, GDK_SCALE=$GDK_INT_SCALE, DPI=$DPI, Font=$FONT_SIZE, Cursor=$CURSOR_SIZE"
 echo "⚠️  請登出再登入，讓 /etc/profile.d 的環境變數（含 SCALE）生效；"
 echo "    只想套用 shell 設定可執行 'source ~/.bashrc && source ~/.profile'。"
 
