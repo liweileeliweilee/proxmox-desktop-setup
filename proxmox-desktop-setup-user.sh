@@ -83,8 +83,16 @@ Xcursor.theme: Adwaita
 EOF
 xrdb -merge "$HOME/.Xresources.d/hidpi" || true
 
-# 確保 ~/.Xresources 主檔案會 include 進來（重開機後傳統 X11 軟體才會吃到）
-write_block "$HOME/.Xresources" "# START_PVE_XRES" "# END_PVE_XRES" '#include ".Xresources.d/hidpi"'
+# 確保 ~/.Xresources 會 include 進來，下次登入後傳統 X11 軟體才吃得到
+# （登入時只會載入 ~/.Xresources，不會去讀 ~/.Xresources.d/）
+# 注意：1. X resources 的註解符號是 !，不能用 #（# 會被 cpp 當成前處理指令而報錯）
+#       2. include 用絕對路徑：XFCE 啟動時是從 stdin 餵給 xrdb，相對路徑會依當時的工作目錄而定
+if grep -qxF "# START_PVE_XRES" "$HOME/.Xresources" 2>/dev/null &&
+   grep -qxF "# END_PVE_XRES" "$HOME/.Xresources"; then
+    # 清掉舊版用 # 當標記的區塊（遷移用，之後可刪）
+    sed -i '/^# START_PVE_XRES$/,/^# END_PVE_XRES$/d' "$HOME/.Xresources"
+fi
+write_block "$HOME/.Xresources" "! START_PVE_XRES" "! END_PVE_XRES" "#include \"$HOME/.Xresources.d/hidpi\""
 
 echo "==== 2. 設定 XFCE 游標主題 ===="
 mkdir -p "$HOME/.icons/default"
